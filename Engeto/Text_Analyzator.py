@@ -1,0 +1,101 @@
+texts = ['''Situated about 10 miles west of Kemmerer,
+Fossil Butte is a ruggedly impressive
+topographic feature that rises sharply
+some 1000 feet above Twin Creek Valley
+to an elevation of more than 7500 feet
+above sea level. The butte is located just
+north of US 30N and the Union Pacific Railroad,
+which traverse the valley. ''',
+'''At the base of Fossil Butte are the bright
+red, purple, yellow and gray beds of the Wasatch
+Formation. Eroded portions of these horizontal
+beds slope gradually upward from the valley floor
+and steepen abruptly. Overlying them and extending
+to the top of the butte are the much steeper
+buff-to-white beds of the Green River Formation,
+which are about 300 feet thick.''',
+'''The monument contains 8198 acres and protects
+a portion of the largest deposit of freshwater fish
+fossils in the world. The richest fossil fish deposits
+are found in multiple limestone layers, which lie some
+100 feet below the top of the butte. The fossils
+represent several varieties of perch, as well as
+other freshwater genera and herring similar to those
+in modern oceans. Other fish such as paddlefish,
+garpike and stingray are also present.''']
+
+# Welcome the user and ask for credentials.
+print('-' * 40)
+print("Welcome to Text Analyzor!")
+
+user = input('Please enter your user name: ')
+password = input('Please enter your password: ')
+
+user_password = {'bob': '123', 'ann': 'pass123', 'mike': 'password123', 'liz': 'pass123'}
+
+# Check whether the credentials are correct.
+
+if user_password.get(user) != password:
+    print('Your password or username is incorrect. ACCESS DENIED!')
+    quit()
+
+print('Now You are logged in!')
+
+
+print('-' * 40)
+text = texts[int(input('Please select the text from 1-3: '))-1]
+
+print('-' * 40)
+
+# Count all words in the selected text, count capital words, uppercase words, lowercase words, count numbers (not digits).
+
+count_word = 0
+count_capital = 0
+count_upper = 0
+count_lower = 0
+count_nums = 0
+num_sum = 0
+graph = {}
+
+text = (texts[2]).split()
+clean_text = [word.strip(',.:/; ') for word in text]
+
+for word in clean_text:
+    count_word += 1
+
+    if word.istitle():
+        count_capital += 1
+    elif word.isupper():
+        count_upper += 1
+    elif word.islower():
+        count_lower += 1
+    elif word.isdigit():
+        count_nums += 1
+        num_sum += float(word)
+
+    length = len(word)
+    graph[length] = graph.get(length,0) + 1
+
+print(f"In the selected text, you can find {count_word} words. \nFrom which:")
+print(f"{count_capital} capital words.")
+print(f"{count_upper} uppercase words.")
+print(f"{count_lower} lowercase words.")
+print(f"{count_nums} numeric words.")
+
+print('-' * 40)
+
+# Vizualize a simple graph with counts of word lenghts from the selected text.
+
+sorted_lenghts = sorted(graph)
+sorted_graph = {}
+for length in sorted_lenghts:
+    sorted_graph[length] = graph.get(length)
+
+for item in sorted_graph:
+    count = sorted_graph.get(item)
+    print(f"{item} {'*' * count} {count}")
+
+# Sum of the numbers (not digits) from the text.
+
+print('-' * 40)
+print(f'If we sum all the numbers from the text we will get: {num_sum}.')
